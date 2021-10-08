@@ -1,0 +1,31 @@
+<h1>Chat Rooms</h1>
+
+<%= if @current_user do %>
+  <ol>
+    <%= for chat_room <- @chat_rooms do %>
+      <li>
+        <img src={chat_room.course_image_url} width="30%" height="30%">
+        <p>
+          <span><%= chat_room.name %></span>
+        </p>
+        <p>
+          <button>Start Chat</button>
+          <% on_click = "copyToClipboard(#{chat_room.id})" %>
+          <button onclick={on_click}">Copy chat room URL</button>
+          <input type="hidden" id={chat_room.id} value={chat_room.url}/>
+        </p>
+      </li>
+    <% end %>
+  </ol>
+<% else %>
+  You are not allowed to see this, please sign in
+<% end %>
+
+<script>
+  function copyToClipboard(chatRoomId) {
+    var imageUrlInput = document.getElementById(chatRoomId);
+
+    navigator.clipboard.writeText(imageUrlInput.value);
+    alert("Copied to clipboard");
+  }
+</script>
